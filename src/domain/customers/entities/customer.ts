@@ -1,5 +1,4 @@
 import crypto from 'crypto';
-import slugify from 'slugify';
 
 interface ICustomerProps {
   name: string;
@@ -11,7 +10,7 @@ interface ICustomerProps {
 export class Customer {
   id: string;
 
-  username: string;
+  username!: string;
 
   name!: string;
 
@@ -23,7 +22,6 @@ export class Customer {
 
   constructor(props: ICustomerProps, id?: string) {
     this.id = id ?? crypto.randomUUID();
-    this.username = slugify(props.name, { lower: true });
     Object.assign(this, props);
   }
 }

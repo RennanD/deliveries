@@ -1,4 +1,3 @@
-import slugify from 'slugify';
 import { inject, injectable } from 'tsyringe';
 import { ICustomersRepository } from '@domain/customers/repositories/icustomers.repository';
 import { Customer } from '@domain/customers/entities/customer';
@@ -6,6 +5,7 @@ import { IHashProvider } from '@application/providers/ihash.provider';
 
 interface IRequest {
   name: string;
+  username: string;
   password: string;
 }
 
@@ -18,9 +18,7 @@ export class CreateClientUseCase {
     private hashProvider: IHashProvider,
   ) {}
 
-  async run({ name, password }: IRequest): Promise<Customer> {
-    const username = slugify(name, { lower: true });
-
+  async run({ name, username, password }: IRequest): Promise<Customer> {
     const existentCustomer =
       await this.customersRepository.findCustomerByUsername(username);
 

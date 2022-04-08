@@ -1,21 +1,29 @@
-import crypto from 'node:crypto';
-import slugify from 'slugify';
+import crypto from 'crypto';
 
 interface DeliverymanProps {
   name: string;
-  password: string;
+  username: string;
+  password?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export class Deliveryman {
-  private id: string;
+  id: string;
 
-  private username: string;
+  username!: string;
 
-  private props: DeliverymanProps;
+  name!: string;
+
+  password?: string;
+
+  createdAt?: Date;
+
+  updatedAt?: Date;
 
   constructor(props: DeliverymanProps, id?: string) {
     this.id = id ?? crypto.randomUUID();
-    this.props = props;
-    this.username = slugify(props.name, { lower: true });
+
+    Object.assign(this, props);
   }
 }
