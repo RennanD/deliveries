@@ -1,17 +1,19 @@
-import crypto from 'node:crypto';
+import crypto from 'crypto';
 import slugify from 'slugify';
 
 interface ICustomerProps {
   name: string;
-  password: string;
+  password?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export class Customer {
-  private id: string;
+  id: string;
 
-  private username: string;
+  username: string;
 
-  private props: ICustomerProps;
+  props: ICustomerProps;
 
   constructor(props: ICustomerProps, id?: string) {
     this.id = id ?? crypto.randomUUID();
