@@ -13,11 +13,17 @@ export class Customer {
 
   username: string;
 
-  props: ICustomerProps;
+  name!: string;
+
+  password?: string;
+
+  createdAt?: Date;
+
+  updatedAt?: Date;
 
   constructor(props: ICustomerProps, id?: string) {
     this.id = id ?? crypto.randomUUID();
     this.username = slugify(props.name, { lower: true });
-    this.props = props;
+    Object.assign(this, props);
   }
 }

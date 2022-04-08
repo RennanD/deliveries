@@ -19,7 +19,7 @@ export class CreateClientUseCase {
   ) {}
 
   async run({ name, password }: IRequest): Promise<Customer> {
-    const username = slugify(name);
+    const username = slugify(name, { lower: true });
 
     const existentCustomer =
       await this.customersRepository.findCustomerByUsername(username);

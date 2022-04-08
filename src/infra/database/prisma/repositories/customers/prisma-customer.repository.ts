@@ -27,14 +27,14 @@ export class PrismaCustomerRepository implements ICustomersRepository {
   }
 
   async createCustomer(customer: Customer): Promise<Customer> {
-    const { id, username, props } = customer;
+    const { id, username, name, password } = customer;
 
     await this.repository.customer.create({
       data: {
         id,
         username,
-        name: props.name,
-        password: props.name,
+        name,
+        password: password!,
       },
     });
 

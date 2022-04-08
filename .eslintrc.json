@@ -21,6 +21,7 @@
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "no-useless-constructor": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": [
