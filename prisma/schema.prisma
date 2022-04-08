@@ -19,6 +19,7 @@ model Deliveryman {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt()
 
+  Delivery Delivery[]
   @@map("deliveryman")
 }
 
@@ -31,5 +32,24 @@ model Customer {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt()
 
+  Delivery Delivery[]
   @@map("customers")
+}
+
+model Delivery {
+  id String @id()
+
+  item String
+
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String
+
+  deliveryman   Deliveryman @relation(fields: [deliverymanId], references: [id])
+  deliverymanId String
+
+  startDate DateTime @default(now())
+  endDate   DateTime @default(now())
+
+
+  @@map("deliveries")
 }
