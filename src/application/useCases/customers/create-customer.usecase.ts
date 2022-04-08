@@ -26,7 +26,7 @@ export class CreateClientUseCase {
       throw new Error('Customer already exists');
     }
 
-    const hashedPassword = await this.hashProvider.hash(password, 16);
+    const hashedPassword = await this.hashProvider.hash(password, 8);
 
     const customer = new Customer({ name, password: hashedPassword });
 
