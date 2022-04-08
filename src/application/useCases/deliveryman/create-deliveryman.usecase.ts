@@ -1,6 +1,7 @@
 import { IHashProvider } from '@application/providers/ihash.provider';
 import { Deliveryman } from '@domain/deliveryman/entities/deliveryman';
 import { IDeliverymanRepository } from '@domain/deliveryman/repositories/ideliveryman.repository';
+import { BadRequestError } from '@errors/bad-request.error';
 import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
@@ -24,7 +25,7 @@ export class CreateDeliveryamUseCase {
     );
 
     if (existentDeliveryman) {
-      throw new Error('Deliveryman already exists');
+      throw new BadRequestError('Deliveryman already exists');
     }
 
     const hashedPassword = await this.hashProvider.hash(password, 8);

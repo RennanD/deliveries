@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import { ICustomersRepository } from '@domain/customers/repositories/icustomers.repository';
 import { Customer } from '@domain/customers/entities/customer';
 import { IHashProvider } from '@application/providers/ihash.provider';
+import { BadRequestError } from '@errors/bad-request.error';
 
 interface IRequest {
   name: string;
@@ -23,7 +24,7 @@ export class CreateClientUseCase {
       await this.customersRepository.findCustomerByUsername(username);
 
     if (existentCustomer) {
-      throw new Error('Customer already exists');
+      throw new BadRequestError('Customer already exists');
     }
 
     const hashedPassword = await this.hashProvider.hash(password, 8);

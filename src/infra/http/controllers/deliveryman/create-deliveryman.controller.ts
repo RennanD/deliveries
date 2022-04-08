@@ -9,21 +9,12 @@ export class CreateDeliverymanController {
 
     const createDeliveryman = container.resolve(CreateDeliveryamUseCase);
 
-    try {
-      const deliveryman = await createDeliveryman.run({
-        name,
-        password,
-        username,
-      });
+    const deliveryman = await createDeliveryman.run({
+      name,
+      password,
+      username,
+    });
 
-      return response.status(201).json({ deliveryman });
-    } catch (error) {
-      return response.status(400).json({
-        error: {
-          message: error.message,
-          type_error: 'bad_request',
-        },
-      });
-    }
+    return response.status(201).json({ deliveryman });
   }
 }

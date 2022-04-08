@@ -9,17 +9,8 @@ export class CreateCustomerController {
 
     const createCustomer = container.resolve(CreateClientUseCase);
 
-    try {
-      const customer = await createCustomer.run({ name, password, username });
+    const customer = await createCustomer.run({ name, password, username });
 
-      return response.status(201).json({ customer });
-    } catch (error) {
-      return response.status(400).json({
-        error: {
-          message: error.message,
-          type_error: 'bad_request',
-        },
-      });
-    }
+    return response.status(201).json({ customer });
   }
 }
