@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Deliveryman {
-  id       String @id @default(uuid())
+  id       String @id
   name     String
   username String @unique()
   password String
@@ -20,4 +20,16 @@ model Deliveryman {
   updatedAt DateTime @default(now()) @updatedAt()
 
   @@map("deliveryman")
+}
+
+model Customer {
+  id       String @id()
+  name     String
+  username String @unique()
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt()
+
+  @@map("customers")
 }
