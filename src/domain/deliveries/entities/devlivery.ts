@@ -4,6 +4,8 @@ interface IDeliveryProps {
   item: string;
   customerId: string;
   deliverymanId: string;
+  startDate?: Date;
+  endDate?: Date;
 }
 
 export class Delivery {
