@@ -13,7 +13,7 @@ export class PrismaCustomerRepository implements ICustomersRepository {
   }
 
   async findCustomerByUsername(username: string): Promise<Customer | null> {
-    const customer = await this.repository.customer.findUnique({
+    const customer = await this.repository.customer.findFirst({
       where: { username },
     });
 
