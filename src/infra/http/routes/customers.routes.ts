@@ -5,6 +5,6 @@ const customersRouter = Router();
 
 const createCustomerController = new CreateCustomerController();
 
-customersRouter.post('/', createCustomerController.handle);
+// customersRouter.post('/', createCustomerController.handle);
 
 export { customersRouter };
