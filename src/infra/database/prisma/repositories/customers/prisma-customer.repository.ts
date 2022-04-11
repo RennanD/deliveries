@@ -1,7 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 
+import { AsyncMaybe } from '@core/domain/logic/maybe';
+
 import { Customer } from '@domain/customers/entities/customer';
-import { ICustomersRepository } from '@domain/customers/repositories/icustomers.repository';
+import { ICustomerDto } from '@domain/customers/dtos/customers.dto';
+import { CustomerMapper } from '@domain/customers/mappers/customer.mapper';
+
+import { ICustomersRepository } from '@application/repositories/customers/icustomers.repository';
 
 import { prisma } from '../../client';
 
@@ -12,21 +17,26 @@ export class PrismaCustomerRepository implements ICustomersRepository {
     this.repository = prisma;
   }
 
-  async findCustomerByUsername(username: string): Promise<Customer | null> {
-    const customer = await this.repository.customer.findFirst({
+  async findCustomerByUsername(username: string): AsyncMaybe<ICustomerDto> {
+    const rawCustomer = await this.repository.customer.findFirst({
       where: { username },
     });
 
-    if (!customer) {
+    if (!rawCustomer) {
       return null;
     }
 
-    const { id, name, createdAt, updatedAt } = customer;
+    const { id, name, password, createdAt, updatedAt } = rawCustomer;
 
-    return new Customer({ name, createdAt, updatedAt }, id);
+    const customer = await Customer.create(
+      { name, password, username, createdAt, updatedAt },
+      id,
+    );
+
+    return CustomerMapper.toDto(customer);
   }
 
-  async createCustomer(customer: Customer): Promise<Customer> {
+  async createCustomer(customer: Customer): Promise<void> {
     const { id, username, name, password } = customer;
 
     await this.repository.customer.create({
@@ -37,7 +47,5 @@ export class PrismaCustomerRepository implements ICustomersRepository {
         password: password!,
       },
     });
-
-    return customer;
   }
 }
