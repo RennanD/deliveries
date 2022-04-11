@@ -28,4 +28,19 @@ describe('Create Deliveryman', () => {
       await sut.run(deliverymanData);
     }).rejects.toBeInstanceOf(BadRequestError);
   });
+
+  it('should be able to create a new deliveryman', async () => {
+    const { sut } = makeSut();
+
+    const deliverymanData = {
+      name: 'any-deliveryman',
+      username: 'any-deliveryman',
+      password: 'any-password',
+    };
+
+    const customer = await sut.run(deliverymanData);
+
+    expect(customer).toHaveProperty('id');
+    expect(customer.username).toEqual(deliverymanData.username);
+  });
 });
