@@ -1,4 +1,4 @@
-import { AuthCustomerUseCase } from '@application/useCases/account/auth-customer.usecase';
+import { AuthCustomerUseCase } from '@application/usecases/account/auth-customer.usecase';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
