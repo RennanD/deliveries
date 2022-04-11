@@ -1,6 +1,9 @@
 import { Customer } from '@domain/customers/entities/customer';
+
 import { BadRequestError } from '@errors/bad-request.error';
-import { InMemoryCustomersRepository } from '@infra/database/in-memory/repositories/in-memory-customers.repository';
+
+import { InMemoryCustomersRepository } from '@infra/database/in-memory/repositories/customers/in-memory-customers.repository';
+
 import { CreateCustomerUseCase } from './create-customer.usecase';
 
 const makeSut = () => {
