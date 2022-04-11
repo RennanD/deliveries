@@ -1,27 +1,20 @@
-import crypto from 'crypto';
+import { Entity } from '@core/domain/entity';
 
 interface ICustomerProps {
   name: string;
-  password?: string;
+  password: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export class Customer {
-  id: string;
+export class Customer extends Entity<ICustomerProps> {
+  private constructor(props: ICustomerProps, id?: string) {
+    super(props, id);
+  }
 
-  username!: string;
+  static create(props: ICustomerProps, id?: string) {
+    const customer = new Customer(props, id);
 
-  name!: string;
-
-  password?: string;
-
-  createdAt?: Date;
-
-  updatedAt?: Date;
-
-  constructor(props: ICustomerProps, id?: string) {
-    this.id = id ?? crypto.randomUUID();
-    Object.assign(this, props);
+    return customer;
   }
 }
