@@ -51,4 +51,6 @@ describe('Auth Customer', () => {
       });
     }).rejects.toBeInstanceOf(UnauthozitedError);
   });
+
+  // it('should be able auth use')
 });
