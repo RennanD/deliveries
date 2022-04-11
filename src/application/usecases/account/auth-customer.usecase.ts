@@ -1,12 +1,12 @@
 import { inject, injectable } from 'tsyringe';
 
 import { Customer } from '@domain/customers/entities/customer';
-import { ICustomersRepository } from '@domain/customers/repositories/icustomers.repository';
 
 import { IHashProvider } from '@application/providers/ihash.provider';
 
 import { UnauthozitedError } from '@errors/unauthorized.error';
 import { IJWTProvider } from '@application/providers/ijwt.provider';
+import { ICustomersRepository } from '@application/repositories/customers/icustomers.repository';
 
 interface IRequest {
   username: string;
@@ -23,8 +23,6 @@ export class AuthCustomerUseCase {
   constructor(
     @inject('CustomersRepository')
     private customersRepository: ICustomersRepository,
-    @inject('HashProvider')
-    private hashProvider: IHashProvider,
     @inject('JWTProvider')
     private jwtProvider: IJWTProvider,
   ) {}
