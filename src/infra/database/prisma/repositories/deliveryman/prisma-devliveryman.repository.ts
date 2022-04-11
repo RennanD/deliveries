@@ -1,9 +1,12 @@
 import { PrismaClient } from '@prisma/client';
+import { AsyncMaybe } from '@core/logic/maybe';
 
 import { Deliveryman } from '@domain/deliveryman/entities/deliveryman';
 
 import { IDeliverymanRepository } from '@application/repositories/deliveryman/ideliveryman.repository';
 
+import { IDeliverymanDto } from '@domain/deliveryman/dtos/deliveryman.dto';
+import { DeliverymanMapper } from '@domain/deliveryman/mappers/deliveryman.mapper';
 import { prisma } from '../../client';
 
 export class PrismaDeliverymanRespository implements IDeliverymanRepository {
@@ -13,16 +16,21 @@ export class PrismaDeliverymanRespository implements IDeliverymanRepository {
     this.repository = prisma;
   }
 
-  async findByUsername(username: string): Promise<Deliveryman | null> {
-    const deliveryman = await this.repository.deliveryman.findFirst({
+  async findByUsername(username: string): AsyncMaybe<IDeliverymanDto> {
+    const rawDeliveryman = await this.repository.deliveryman.findFirst({
       where: { username },
     });
 
-    if (!deliveryman) return null;
+    if (!rawDeliveryman) return null;
 
-    const { createdAt, id, name, updatedAt } = deliveryman;
+    const { password, id, name, updatedAt } = rawDeliveryman;
 
-    return new Deliveryman({ createdAt, name, updatedAt, username }, id);
+    const deliveryman = await Deliveryman.create(
+      { name, password, username, updatedAt },
+      id,
+    );
+
+    return DeliverymanMapper.toDto(deliveryman);
   }
 
   async create(deliveryman: Deliveryman): Promise<void> {
@@ -33,7 +41,7 @@ export class PrismaDeliverymanRespository implements IDeliverymanRepository {
         id,
         name,
         username,
-        password: password!,
+        password,
       },
     });
   }

@@ -1,9 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 
-import { ICustomersRepository } from '@domain/customers/repositories/icustomers.repository';
 import { Customer } from '@domain/customers/entities/customer';
 
 import { BadRequestError } from '@errors/bad-request.error';
+import { ICustomersRepository } from '@application/repositories/customers/icustomers.repository';
 
 interface IRequest {
   name: string;

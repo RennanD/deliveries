@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { AsyncMaybe } from '@core/domain/logic/maybe';
+import { AsyncMaybe } from '@core/logic/maybe';
 
 import { Customer } from '@domain/customers/entities/customer';
 import { ICustomerDto } from '@domain/customers/dtos/customers.dto';

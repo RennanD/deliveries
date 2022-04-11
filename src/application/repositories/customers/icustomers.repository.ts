@@ -1,4 +1,4 @@
-import { AsyncMaybe } from '@core/domain/logic/maybe';
+import { AsyncMaybe } from '@core/logic/maybe';
 import { ICustomerDto } from '@domain/customers/dtos/customers.dto';
 import { Customer } from '@domain/customers/entities/customer';
 

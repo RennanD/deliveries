@@ -16,7 +16,19 @@ export class Deliveryman extends Entity<IDeliverymanProps> {
     return this.props.name;
   }
 
-  constructor(props: IDeliverymanProps, id?: string) {
+  get username() {
+    return this.props.username;
+  }
+
+  get password() {
+    return this.props.password;
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt;
+  }
+
+  private constructor(props: IDeliverymanProps, id?: string) {
     super(props, id);
   }
 
