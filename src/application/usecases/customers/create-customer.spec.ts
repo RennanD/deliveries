@@ -28,4 +28,19 @@ describe('Create Customer', () => {
       await sut.run(customerData);
     }).rejects.toBeInstanceOf(BadRequestError);
   });
+
+  it('should be able to create a new customer', async () => {
+    const { sut } = makeSut();
+
+    const customerData = {
+      name: 'any-customer',
+      username: 'any-customer',
+      password: 'any-password',
+    };
+
+    const customer = await sut.run(customerData);
+
+    expect(customer).toHaveProperty('id');
+    expect(customer.name).toEqual(customerData.name);
+  });
 });
