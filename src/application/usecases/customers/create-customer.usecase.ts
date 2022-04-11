@@ -18,7 +18,7 @@ interface IResponse {
 }
 
 @injectable()
-export class CreateClientUseCase {
+export class CreateCustomerUseCase {
   constructor(
     @inject('CustomersRepository')
     private customersRepository: ICustomersRepository,

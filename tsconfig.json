@@ -8,33 +8,16 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
       "@domain/*": ["./src/domain/*"],
       "@infra/*": ["./src/infra/*"],
       "@application/*": ["./src/application/*"],
       "@errors/*": ["./src/errors/*"],
-      "@core/*": ["./src/core/*"],
+      "@core/*": ["./src/core/*"]
     }                   
   }
 }
 
-// {
-//   "compilerOptions": {
-//     "sourceMap": true,
-//     "outDir": "dist",
-//     "strict": true,
-//     "lib": ["esnext"],
-//     "esModuleInterop": true,
-//     "experimentalDecorators": true,
-//     "emitDecoratorMetadata": true,
-//     "baseUrl": "./",
-//     "paths": {
-//       "@domain/*": ["./src/domain/*"],
-//       "@infra/*": ["./src/infra/*"],
-//       "@application/*": ["./src/application/*"],
-//       "@errors/*": ["./src/errors/*"]
-//     }
-//   }
-// }
 
