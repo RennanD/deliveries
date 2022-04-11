@@ -2,8 +2,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { Customer } from '@domain/customers/entities/customer';
 
-import { IHashProvider } from '@application/providers/ihash.provider';
-
 import { UnauthozitedError } from '@errors/unauthorized.error';
 import { IJWTProvider } from '@application/providers/ijwt.provider';
 import { ICustomersRepository } from '@application/repositories/customers/icustomers.repository';
@@ -36,10 +34,7 @@ export class AuthCustomerUseCase {
       throw new UnauthozitedError('Invalid Credentials');
     }
 
-    const passwordMatch = this.hashProvider.compare(
-      customer.password!,
-      password,
-    );
+    const passwordMatch = await customer.checkPassword(password);
 
     if (!passwordMatch) {
       throw new UnauthozitedError('Invalid Credentials');

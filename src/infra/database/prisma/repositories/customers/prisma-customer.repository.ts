@@ -3,8 +3,6 @@ import { PrismaClient } from '@prisma/client';
 import { AsyncMaybe } from '@core/logic/maybe';
 
 import { Customer } from '@domain/customers/entities/customer';
-import { ICustomerDto } from '@domain/customers/dtos/customers.dto';
-import { CustomerMapper } from '@domain/customers/mappers/customer.mapper';
 
 import { ICustomersRepository } from '@application/repositories/customers/icustomers.repository';
 
@@ -17,7 +15,7 @@ export class PrismaCustomerRepository implements ICustomersRepository {
     this.repository = prisma;
   }
 
-  async findCustomerByUsername(username: string): AsyncMaybe<ICustomerDto> {
+  async findCustomerByUsername(username: string): AsyncMaybe<Customer> {
     const rawCustomer = await this.repository.customer.findFirst({
       where: { username },
     });
@@ -33,7 +31,7 @@ export class PrismaCustomerRepository implements ICustomersRepository {
       id,
     );
 
-    return CustomerMapper.toDto(customer);
+    return customer;
   }
 
   async createCustomer(customer: Customer): Promise<void> {
