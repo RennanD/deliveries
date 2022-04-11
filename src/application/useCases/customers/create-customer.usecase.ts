@@ -1,7 +1,8 @@
 import { inject, injectable } from 'tsyringe';
+
 import { ICustomersRepository } from '@domain/customers/repositories/icustomers.repository';
 import { Customer } from '@domain/customers/entities/customer';
-import { IHashProvider } from '@application/providers/ihash.provider';
+
 import { BadRequestError } from '@errors/bad-request.error';
 
 interface IRequest {
@@ -10,16 +11,20 @@ interface IRequest {
   password: string;
 }
 
+interface IResponse {
+  id: string;
+  name: string;
+  username: string;
+}
+
 @injectable()
 export class CreateClientUseCase {
   constructor(
     @inject('CustomersRepository')
     private customersRepository: ICustomersRepository,
-    @inject('HashProvider')
-    private hashProvider: IHashProvider,
   ) {}
 
-  async run({ name, username, password }: IRequest): Promise<Customer> {
+  async run({ name, username, password }: IRequest): Promise<IResponse> {
     const existentCustomer =
       await this.customersRepository.findCustomerByUsername(username);
 
@@ -27,12 +32,14 @@ export class CreateClientUseCase {
       throw new BadRequestError('Customer already exists');
     }
 
-    const hashedPassword = await this.hashProvider.hash(password, 8);
-
-    const customer = new Customer({ name, password: hashedPassword });
+    const customer = await Customer.create({ name, password, username });
 
     await this.customersRepository.createCustomer(customer);
 
-    return customer;
+    return {
+      id: customer.id,
+      name: customer.name,
+      username: customer.username,
+    };
   }
 }
