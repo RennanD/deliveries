@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 
 import { Deliveryman } from '@domain/deliveryman/entities/deliveryman';
-import { IDeliverymanRepository } from '@domain/deliveryman/repositories/ideliveryman.repository';
+
+import { IDeliverymanRepository } from '@application/repositories/deliveryman/ideliveryman.repository';
 
 import { prisma } from '../../client';
 

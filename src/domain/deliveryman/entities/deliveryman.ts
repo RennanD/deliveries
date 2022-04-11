@@ -1,29 +1,38 @@
-import crypto from 'crypto';
+import { Entity } from '@core/domain/entity';
+import { BcryptHashAdapter } from '@infra/adapters/bcrypt-hash.adapter';
 
-interface DeliverymanProps {
+interface IDeliverymanProps {
   name: string;
   username: string;
-  password?: string;
+  password: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export class Deliveryman {
-  id: string;
+const hashProvider = new BcryptHashAdapter();
 
-  username!: string;
+export class Deliveryman extends Entity<IDeliverymanProps> {
+  get name() {
+    return this.props.name;
+  }
 
-  name!: string;
+  constructor(props: IDeliverymanProps, id?: string) {
+    super(props, id);
+  }
 
-  password?: string;
+  static async create(props: IDeliverymanProps, id?: string) {
+    const password = await hashProvider.hash(props.password, 8);
 
-  createdAt?: Date;
+    const deliveryman = new Deliveryman(
+      {
+        ...props,
+        password,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
+      id,
+    );
 
-  updatedAt?: Date;
-
-  constructor(props: DeliverymanProps, id?: string) {
-    this.id = id ?? crypto.randomUUID();
-
-    Object.assign(this, props);
+    return deliveryman;
   }
 }
