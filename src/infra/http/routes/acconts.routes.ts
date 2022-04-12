@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { CreateCustomerController } from '../controllers/customers/create-customer.controller';
+import { AuthCustomerController } from '../controllers/account/auth-customer.controller';
 
 const accountsRouter = Router();
 
-const createCustomerController = new CreateCustomerController();
+const authCustomerController = new AuthCustomerController();
 
-accountsRouter.post('/', createCustomerController.handle);
+accountsRouter.post('/customers', authCustomerController.handle);
 
 export { accountsRouter };

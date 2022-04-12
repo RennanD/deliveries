@@ -8,6 +8,6 @@ export class BcryptHashAdapter implements IHashProvider {
   }
 
   async compare(compareText: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(compareText, hash);
+    return bcrypt.compareSync(compareText, hash);
   }
 }

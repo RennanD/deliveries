@@ -10,6 +10,12 @@ export class AuthCustomerController {
 
     const session = await authCustomer.run({ username, password });
 
-    return response.json({ session });
+    if (session.isLeft()) {
+      return response
+        .status(session.value.statusCode)
+        .json({ error: session.value });
+    }
+
+    return response.json({ session: session.value });
   }
 }

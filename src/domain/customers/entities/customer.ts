@@ -38,12 +38,12 @@ export class Customer extends Entity<ICustomerProps> {
   }
 
   static async create(props: ICustomerProps, id?: string) {
-    const password = await hashProvider.hash(props.password, 8);
+    const hashedPassword = await hashProvider.hash(props.password, 8);
 
     const customer = new Customer(
       {
         ...props,
-        password,
+        password: id ? props.password : hashedPassword,
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date(),
       },

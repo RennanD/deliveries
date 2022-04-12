@@ -9,11 +9,11 @@ export async function handleException(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _: NextFunction,
 ): Promise<Response> {
-  if (error instanceof AppError) {
-    return response
-      .status(error.statusCode)
-      .json({ error: { message: error.message, type_error: error.type } });
-  }
+  // if (error instanceof AppError) {
+  //   return response
+  //     .status(error.statusCode)
+  //     .json({ error: { message: error.message, type_error: error.type } });
+  // }
 
   return response.status(500).json({
     error: `Internal server error - ${error.message}`,

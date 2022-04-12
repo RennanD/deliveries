@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-export class Entity<T> {
+export abstract class Entity<T> {
   protected _id: string;
 
   protected props: T;

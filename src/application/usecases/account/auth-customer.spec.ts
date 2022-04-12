@@ -19,7 +19,7 @@ const makeSut = () => {
 };
 
 describe('Auth Customer', () => {
-  it('shoul not be able auth customer if not exists', () => {
+  it('shoul not be able auth customer if not exists', async () => {
     const { sut } = makeSut();
 
     const authCustomerData = {
@@ -27,9 +27,12 @@ describe('Auth Customer', () => {
       password: 'any-password',
     };
 
-    expect(async () => {
-      await sut.run(authCustomerData);
-    }).rejects.toBeInstanceOf(UnauthozitedError);
+    const response = await sut.run(authCustomerData);
+
+    expect(response.isLeft()).toBeTruthy();
+    expect(response.value).toEqual(
+      new UnauthozitedError('Invalid Credentials'),
+    );
   });
 
   it('should not be able auth customer with incorrect password', async () => {
@@ -44,13 +47,35 @@ describe('Auth Customer', () => {
 
     await customersRepository.createCustomer(customer);
 
-    expect(async () => {
-      await sut.run({
-        username: authCustomerData.username,
-        password: 'incorrect-pass',
-      });
-    }).rejects.toBeInstanceOf(UnauthozitedError);
+    const response = await sut.run({
+      username: authCustomerData.username,
+      password: 'incorrect-pass',
+    });
+
+    expect(response.isLeft()).toBeTruthy();
+    expect(response.value).toEqual(new UnauthozitedError('Invalid Password'));
   });
 
-  // it('should be able auth use')
+  it('should be able to auth customer with correct credentials', async () => {
+    const { sut, customersRepository } = makeSut();
+
+    const authCustomerData = {
+      name: 'any-name',
+      username: 'any-username',
+      password: 'any-password',
+    };
+
+    const customer = await Customer.create(authCustomerData);
+
+    await customersRepository.createCustomer(customer);
+
+    const response = await sut.run({
+      username: authCustomerData.username,
+      password: authCustomerData.password,
+    });
+
+    expect(response.isRight()).toBeTruthy();
+    expect(response.value).toHaveProperty('token');
+    expect(response.value).toHaveProperty('customer');
+  });
 });
