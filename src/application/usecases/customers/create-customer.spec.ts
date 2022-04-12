@@ -15,25 +15,7 @@ const makeSut = () => {
 
 describe('Create Customer', () => {
   it('shoul not be able to create customers with same username', async () => {
-    expect(async () => {
-      const { sut, customersRepository } = makeSut();
-
-      const customerData = {
-        name: 'any-customer',
-        username: 'any-customer',
-        password: 'any-password',
-      };
-
-      const customer = await Customer.create(customerData);
-
-      await customersRepository.createCustomer(customer);
-
-      await sut.run(customerData);
-    }).rejects.toBeInstanceOf(BadRequestError);
-  });
-
-  it('should be able to create a new customer', async () => {
-    const { sut } = makeSut();
+    const { sut, customersRepository } = makeSut();
 
     const customerData = {
       name: 'any-customer',
@@ -41,9 +23,33 @@ describe('Create Customer', () => {
       password: 'any-password',
     };
 
-    const customer = await sut.run(customerData);
+    const customer = await Customer.create(customerData);
 
-    expect(customer).toHaveProperty('id');
-    expect(customer.name).toEqual(customerData.name);
+    await customersRepository.createCustomer(customer);
+
+    const response = await sut.run(customerData);
+
+    expect(response.isLeft()).toBeTruthy();
+    expect(response.value).toEqual(
+      new BadRequestError('Customer already exists'),
+    );
+  });
+
+  it('should be able to create a new customer', async () => {
+    const { sut, customersRepository } = makeSut();
+
+    const customerData = {
+      name: 'any-customer',
+      username: 'any-customer',
+      password: 'any-password',
+    };
+
+    const response = await sut.run(customerData);
+
+    expect(response.isRight()).toBeTruthy();
+    expect(response.value).toHaveProperty('id');
+    expect(
+      await customersRepository.findCustomerByUsername(customerData.username),
+    ).toBeTruthy();
   });
 });

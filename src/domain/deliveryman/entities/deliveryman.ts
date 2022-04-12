@@ -33,12 +33,12 @@ export class Deliveryman extends Entity<IDeliverymanProps> {
   }
 
   static async create(props: IDeliverymanProps, id?: string) {
-    const password = await hashProvider.hash(props.password, 8);
+    const hashedPassword = await hashProvider.hash(props.password, 8);
 
     const deliveryman = new Deliveryman(
       {
         ...props,
-        password,
+        password: id ? props.password : hashedPassword,
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date(),
       },
