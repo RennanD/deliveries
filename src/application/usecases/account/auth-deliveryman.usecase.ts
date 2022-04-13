@@ -1,10 +1,13 @@
 import { inject, injectable } from 'tsyringe';
 
-import { IDeliverymanRepository } from '@application/repositories/deliveryman/ideliveryman.repository';
-import { UnauthozitedError } from '@errors/unauthorized.error';
-import { IJWTProvider } from '@application/providers/ijwt.provider';
-import { IDeliverymanDto } from '@domain/deliveryman/dtos/deliveryman.dto';
 import { Either, left, right } from '@core/logic/either';
+
+import { IDeliverymanRepository } from '@application/repositories/deliveryman/ideliveryman.repository';
+import { IJWTProvider } from '@application/providers/ijwt.provider';
+
+import { IDeliverymanDto } from '@domain/deliveryman/dtos/deliveryman.dto';
+
+import { UnauthozitedError } from '@errors/unauthorized.error';
 
 interface IRequest {
   username: string;
