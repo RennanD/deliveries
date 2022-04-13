@@ -5,8 +5,6 @@ import { Deliveryman } from '@domain/deliveryman/entities/deliveryman';
 
 import { IDeliverymanRepository } from '@application/repositories/deliveryman/ideliveryman.repository';
 
-import { IDeliverymanDto } from '@domain/deliveryman/dtos/deliveryman.dto';
-import { DeliverymanMapper } from '@domain/deliveryman/mappers/deliveryman.mapper';
 import { prisma } from '../../client';
 
 export class PrismaDeliverymanRespository implements IDeliverymanRepository {
@@ -16,7 +14,7 @@ export class PrismaDeliverymanRespository implements IDeliverymanRepository {
     this.repository = prisma;
   }
 
-  async findByUsername(username: string): AsyncMaybe<IDeliverymanDto> {
+  async findByUsername(username: string): AsyncMaybe<Deliveryman> {
     const rawDeliveryman = await this.repository.deliveryman.findFirst({
       where: { username },
     });
@@ -30,7 +28,7 @@ export class PrismaDeliverymanRespository implements IDeliverymanRepository {
       id,
     );
 
-    return DeliverymanMapper.toDto(deliveryman);
+    return deliveryman;
   }
 
   async create(deliveryman: Deliveryman): Promise<void> {

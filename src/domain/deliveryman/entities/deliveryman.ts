@@ -32,6 +32,10 @@ export class Deliveryman extends Entity<IDeliverymanProps> {
     super(props, id);
   }
 
+  public async checkPassword(password: string) {
+    return hashProvider.compare(password, this.password);
+  }
+
   static async create(props: IDeliverymanProps, id?: string) {
     const hashedPassword = await hashProvider.hash(props.password, 8);
 
